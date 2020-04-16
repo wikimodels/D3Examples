@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<svg width="960" height="500"></svg>
+<style>
+  .axis-text {
+    font-size: 30px;
+  }
+</style>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="/scripts/urls.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+  margin = {top: 20, right: 20, bottom: 30, left: 50},
+  width = +svg.attr("width") - margin.left - margin.right,
+  height = +svg.attr("height") - margin.top - margin.bottom,
+  g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+//var parseDate = d3.timeParse("%Y/%m/%d %H:%M");
+
+var color = d3.scaleOrdinal()
+  .domain(["uniqueClicks", "totalClicks"])
+  .range(["rgba(249, 208, 87, 0.7)", "rgba(54, 174, 175, 0.65)"]);
+
+var x = d3.scaleLinear().range([0, width]),
+    y = d3.scaleLinear().range([height, 0]),
+    z = color;
+
+var area = d3.area()
+  .curve(d3.curveMonotoneX)
+  .x(function(d) { return x(d.hour); })
+  .y0(y(0))
+  .y1(function(d) { 
+      return y(d.clicks); 
+    });
+
+     
+ 
+// JSON
+d3.json(getUrls().clicksByHoursOfDay, function(error, data) {
+  if (error) throw error;
+   
+//   const parseTime = d3.timeParse("%H");
+//   (data.data).forEach(function(d){
+//     d.hour = parseTime(d.hour);
+//   });
+  const data_ready_total = d3
+      .nest()
+      .key(function (d) {
+        return "totalClicks";
+      })
+      .rollup(function(leaves){
+          var temp = leaves.reduce((acc, cur ) => {
+              var obj = {};
+              obj.hour = cur.hour;
+              obj.clicks = cur.totalClicks;
+              acc.push(obj);
+              return acc;
+          }, [])
+           return temp;
+      })
+      .entries(data.data);
+
+    const data_ready_unique = d3
+      .nest()
+      .key(function (d) {
+        return "uniqueClicks";
+      })
+      .rollup(function(leaves){
+          var temp = leaves.reduce((acc, cur ) => {
+              var obj = {};
+              obj.hour = cur.hour;
+              obj.clicks = cur.uniqueClicks;
+              acc.push(obj);
+              return acc;
+          }, [])
+           return temp;
+      })
+      .entries(data.data);
+
+    const data_ready = data_ready_total.concat(data_ready_unique);
+    console.log("data_ready", data_ready);
+  
+  console.log(data_ready);
+
+  x.domain(d3.extent(data.data, function(d) { return d.hour; }));
+  y.domain([
+    0,
+    d3.max(data_ready, function(c) { return d3.max(c.value, function(d) {             
+        return d.clicks; }); 
+    })
+  ]);
+  z.domain(data_ready.map(function(c) { return c.key; }));
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+      .append("text")
+      .attr("x", 0.94* width)       
+      .attr("dy", "2.71em")
+      .attr("fill", "#000")
+      .attr('class', 'axis-text')
+      .text("Время суток (часы)");
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y))
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("fill", "#000")
+      .text("Клики");
+
+  var areaSource = g.selectAll(".area")
+      .data(data_ready)
+      .enter()
+      .append("g")
+      .attr("class", function(d) { return `area ${d.key}`; })
+
+      areaSource.append("path")
+       .attr("d", function(d) {
+           return area(d.value); 
+        })
+       .style("fill", function(d) { return z(d.key); });
+
+       //LINE
+       const lineColor = d3.scaleOrdinal(d3.schemeCategory10);
+
+  var line = d3
+    .line()
+    .x(function(d, i) {         
+      return x(d.hour);
+    }) // set the x values for the line generator
+    .y(function(d) {
+      return y(d.clicks);
+    }) // set the y values for the line generator
+    .curve(d3.curveMonotoneX);
+
+       var lineSource = g.selectAll(".line")
+      .data(data_ready)
+      .enter()
+      .append("g")
+      .attr("class", function(d){ return `line ${d.key}`})
+
+       lineSource.append("path")
+       .attr("d", function(d) {            
+           return line(d.value); 
+        })
+       .attr("fill", 'none')
+       .attr('stroke-width', '0.1em')
+       .attr('stroke', (d) => lineColor(d.key));
+
+       // TOTAL-CLICKS CIRCLES    
+ var totalClicksCircles = g.selectAll("total")
+      .data(data_ready_total[0].value)
+      .enter()
+      .append('g')
+      .attr('class', 'circles total')
+
+
+      totalClicksCircles.append("circle")      
+      .attr("cx", function(d) { return x(d.hour) })
+      .attr("cy", function(d) { return y(d.clicks) })
+      .attr("r", 3)
+      .attr("fill", "red")
+      .attr("stroke", "none")
+
+      // UNIQUE-CLICKS CIRCLES    
+ var uniqueClicksCircles = g.selectAll("total")
+      .data(data_ready_unique[0].value)
+      .enter()
+      .append('g')
+      .attr('class', 'circles total')
+
+
+      uniqueClicksCircles.append("circle")      
+      .attr("cx", function(d) { return x(d.hour) })
+      .attr("cy", function(d) { return y(d.clicks) })
+      .attr("r", 3)
+      .attr("fill", "blue")
+      .attr("stroke", "none")
+        
+});
+
+  
+
+    </script>
+  </body>
+  </html>

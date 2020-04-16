@@ -1,0 +1,38 @@
+body {
+  margin-top: 3.5em;
+  background-color: rgb(52, 10, 94);
+}
+
+@media (max-width: 767px) {
+  .container-fluid,
+  .col-12 {
+    padding: 0px;
+    margin: 0px;
+  }
+  .navbar-header {
+    margin: 0px;
+  }
+}
+
+@media (max-width: 500px) {
+  h6 {
+    font-size: 1.4rem;
+  }
+}
+
+.labelText {
+  fill: whitesmoke;
+}
+.header {
+  color: whitesmoke;
+  text-align: center;
+  padding-top: 1rem;
+}
+
+.canvas {
+  width: 90%;
+  height: 80vh;
+  background-color: rgb(2, 2, 51);
+  margin: auto;
+  margin-top: 0.5rem;
+}

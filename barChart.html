@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8"> 
+  <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />  
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src='/scripts/d3-tip.js'></script>
+  <link rel="stylesheet" href="/assets/barChart.css">
+</head>
+
+<body>
+    <div id="dataviz"></div>
+    <div id="legend" class='legend'></div>
+
+    <!-- BAR CHART SCRIPTS -->
+<script src="/scripts/urls.js"></script>
+<script src="/scripts/barChart.js"></script>
+<script>
+ var tip = getTip();
+ var barChartSettings = getBarChartSetting();
+ console.log('barChartSettings', barChartSettings);
+ 
+  var margin = {top: 50, right: 20, bottom: 90, left: 40},
+      width = 960,
+      height = 500;
+
+   
+ var barColors = ['aqua', 'deepskyblue', 'steelblue']
+
+  var svg = d3.select("#dataviz").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+svg.call(tip)
+
+  var g = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");     
+
+d3.json(getUrls().clicksByHoursOfDay, function(error, data) {
+  if (error) throw error;
+ const data_ready = data.data;
+ console.log('data ', data_ready);
+ 
+  const data_ready_total = d3
+      .nest()
+      .key(function (d) {
+        return "totalClicks";
+      })
+      .rollup(function(leaves){
+          var temp = leaves.reduce((acc, cur ) => {
+              var obj = {};
+              obj.hour = cur.hour;
+              obj.clicks = cur.totalClicks;
+              acc.push(obj);
+              return acc;
+          }, [])
+           return temp;
+      })
+      .entries(data.data);
+
+    const data_ready_unique = d3
+      .nest()
+      .key(function (d) {
+        return "uniqueClicks";
+      })
+      .rollup(function(leaves){
+          var temp = leaves.reduce((acc, cur ) => {
+              var obj = {};
+              obj.hour = cur.hour;
+              obj.clicks = cur.uniqueClicks;
+              acc.push(obj);
+              return acc;
+          }, [])
+           return temp;
+      })
+      .entries(data.data);
+
+   
+
+    const maxClicksValue = d3.max(data_ready, d =>d.totalClicks);
+    console.log('max value', maxClicksValue);
+    
+
+  var xScale = d3.scaleBand()
+                .rangeRound([0, width])
+                .padding(barChartSettings.xScaleMobilePadding)
+                .domain((data_ready).map(function(d) {
+                  return d.hour;
+                }));
+                 
+
+      yScale = d3.scaleLinear()
+                .rangeRound([height, 0])
+                .domain([0, d3.max(data_ready, (function (d) {
+                  return d.totalClicks;
+                }))]);
+// axis-x
+g.append("g")
+      .attr("class", "axis--x")
+      .attr("transform", `translate(${0}, ${height})`)
+      .call(d3.axisBottom(xScale))
+      .append("text")
+      .attr("x", barChartSettings.xAxisLabel * width)       
+      .attr("dy", "2.71em")
+      .attr('class', 'axis-x-text')
+      .text("Время суток (часы)");
+
+  // axis-y
+    g.append("g")   
+      .attr("class", "axis--y")
+      .call(d3.axisLeft(yScale))   
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr('x', 50)
+      .attr("dy", "0.91em")
+      .attr("dx", barChartSettings.YAxisLabel)
+      .attr("class", "axis-y-text")
+      .text("Клики")
+       
+
+     
+
+  var bar = g.selectAll("rect")
+    .data(data_ready)
+    .enter().append("g");
+
+  // bar chart
+  bar.append("rect")     
+    .transition()
+    .duration(400)
+    .delay(function(d,i){ return 100 + 50 * i})           
+    .attr("x", function(d) { return xScale(d.hour); })
+    .attr("y", function(d) { return yScale(d.totalClicks); })
+    .attr("width", xScale.bandwidth())        
+    .attr("height", function(d) { return height - yScale(d.totalClicks); })
+    .attr("class", function(d) {
+      var s = "bar ";
+      if (d.totalClicks < 0.7 * maxClicksValue) {
+        return s + "bar1";
+      } else if (d.totalClicks < 0.8 * maxClicksValue && d.totalClicks > 0.7 * maxClicksValue) {
+        return s + "bar2";
+      } else {
+        return s + "bar3";
+      }
+    })
+
+    // SET UP EVENTS
+    bar
+    .on('mouseover', tip.show)
+    .on('mouseout', tip.hide)
+    .on('click', tip.show)
+     
+    
+
+  // labels on the bar chart
+  bar.append("text")
+    .attr("dy", "1.3em")
+    .attr("x", function(d) { return xScale(d.hour) + xScale.bandwidth() / 2; })
+    .attr("y", function(d) { return yScale(d.totalClicks)-15; })
+     .attr('class', 'bar-label')
+    .text(function(d) {
+      return d.totalClicks;
+    });
+
+  // line chart
+  var line = d3.line()
+      .x(function(d, i) { return xScale(d.hour) + xScale.bandwidth() / 2})
+      .y(function(d) { return yScale(d.uniqueClicks); })
+      .curve(d3.curveMonotoneX);
+
+  bar.append("path")
+  .attr("class", "line") // Assign a class for styling
+  .attr("d", line(data_ready)) // 11. Calls the line generator
+  .style('opacity', 0)
+  .transition()     
+  .duration(1800)
+  .delay(2200)   
+  .attr("class", "line") // Assign a class for styling
+  .attr("d", line(data_ready)) // 11. Calls the line generator
+  .style('opacity', 1);
+
+    var circle= g.selectAll("circle")
+    .data(data_ready)
+    .enter().append("g");
+  
+    circle
+    .append('circle')
+    .attr("class", "dot") // Assign a class for styling
+    .attr("cx", function(d, i) { return xScale(d.hour) + xScale.bandwidth() / 2; })
+    .attr("cy", function(d) { return 0; })
+    .attr("r", 0)
+    .transition()
+    .duration(400)
+    .delay(function(d,i){ return 500 + 50 * i})
+    .attr("cx", function(d, i) { return xScale(d.hour) + xScale.bandwidth() / 2; })
+    .attr("cy", function(d) { return yScale(d.uniqueClicks); })
+    .attr("r", barChartSettings.radiusMobile);
+
+    // LEGEND 
+    var legendSvg = d3.select("#legend").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            
+    var legendSvgRect = legendSvg
+            .append('g')            
+            .attr('transform', `translate(${barChartSettings.rectGroupTranslateX * width},${barChartSettings.rectGroupTranslateY})`)   
+    
+            var rectGroup = legendSvgRect.append('g')
+            .attr('transform', `translate(${20},${barChartSettings.rectLabelY})`)
+
+            rectGroup.selectAll('rect')
+            .data(barColors)
+            .enter()
+            .append('rect')           
+            .attr('transform', function(d, i){           
+              return `translate(${i * barChartSettings.rectWidth},${0})`})
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", barChartSettings.rectWidth)
+            .attr("height", barChartSettings.rectWidth)
+            .style("fill", function(d, i){ 
+              return barColors[i];
+            })
+            .style('opacity', 0)   
+            .transition()
+            .duration(500)
+            .delay(2000)
+            .attr('transform', function(d, i){           
+              return `translate(${i * barChartSettings.rectWidth},${0})`})
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", barChartSettings.rectWidth)
+            .attr("height", barChartSettings.rectWidth)
+            .style("fill", function(d, i){ 
+              return barColors[i];
+            }) 
+            .style('opacity', 1)
+
+            // RECT LABEL Text
+    var recText = legendSvgRect
+            .append('text')
+            .attr('transform', `translate(
+              ${barChartSettings.rectLabelX},
+              ${ barChartSettings.rectLabelY}
+              )`)
+            .attr('dy',barChartSettings.rectLabelDY)
+            .attr('class', 'legend-text')
+            .style('opacity', 0)             
+            .text('Общие пользователи')
+            .transition()
+            .duration(500)
+            .delay(2000)
+            .attr('transform', `translate(
+              ${barChartSettings.rectLabelX},
+              ${ barChartSettings.rectLabelY}
+              )`)
+            .attr('dy',barChartSettings.rectLabelDY)
+            .attr('class', 'legend-text')
+            .style('opacity', 1)             
+            .text('Общие пользователи')
+             
+             
+             
+
+            //LEGEND LINE
+    var legendSvgLine = legendSvg
+            .append('g')
+            .attr('transform', `translate(
+              ${barChartSettings.lineGroupTranslateX * width},
+              ${barChartSettings.lineGroupTranslateY})`)   
+            
+            
+    var line = legendSvgLine
+            .append('line')             
+            .attr('class', 'labelLine')
+            .attr("x1", 20)
+            .attr("y1",barChartSettings.labelY)
+            .attr("x2", 140)
+            .attr("y2", barChartSettings.labelY)
+            .attr('dy', barChartSettings.lineLabelDY)
+            .style('opacity', 0) 
+            .transition()
+            .duration(500)
+            .delay(2000) 
+            .attr('class', 'labelLine')
+            .attr("x1", 20)
+            .attr("y1",barChartSettings.labelY)
+            .attr("x2", 140)
+            .attr("y2", barChartSettings.labelY)
+            .attr('dy', barChartSettings.lineLabelDY)
+            .style('opacity', 1)   
+
+            //Line Label Circle
+    var circle = legendSvgLine
+            .append('circle')
+            .attr('cx', 80)
+            .attr('cy', barChartSettings.labelY)
+            .attr('r', barChartSettings.radiusMobile)
+            .style('opacity', 0)  
+            .attr('class', 'dot') 
+            .transition()
+            .duration(500)
+            .delay(2000)   
+            .attr('cx', 80)
+            .attr('cy', barChartSettings.labelY)
+            .attr('r', barChartSettings.radiusMobile)
+            .style('opacity', 1)  
+            .attr('class', 'dot') 
+
+            // Line Label Text
+    var rectText = legendSvgLine
+            .append('text')
+            .attr('transform', `translate(${160},${0})`)
+            .attr('dy','1.4em') 
+            .attr('class', 'legend-text')  
+            .attr('dy', barChartSettings.lineTxtLabelDY) 
+            .style('opacity', 0)  
+            .text('Уникальные пользователи')
+            .transition()
+            .duration(500)
+            .delay(2000)
+            .attr('transform', `translate(${160},${0})`)
+            .attr('dy','1.4em') 
+            .attr('class', 'legend-text')  
+            .attr('dy', barChartSettings.lineTxtLabelDY) 
+            .style('opacity', 1)
+            .text('Уникальные пользователи');
+
+})
+  </script>
+</body>
+</html>

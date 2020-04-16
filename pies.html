@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico" />
+
+    <title>Starter Template for Bootstrap</title>
+
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/4.0/examples/starter-template/"
+    />
+
+    <!-- Get D3 setup -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="/scripts/d3-tip.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <!-- CUSTOM STYLES -->
+    <link rel="stylesheet" type="text/css" href="/assets/main.css" />
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top"
+      id="navbar"
+    >
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarsExampleDefault"
+        aria-controls="navbarsExampleDefault"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="http://example.com"
+              id="dropdown01"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Dropdown</a
+            >
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="container-fuild p-0 py-0">
+      <div class="row no-gutters py-0">
+        <!-- PIE TYPE I -->
+
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+          <div class="canvas">
+            <div id="pie_type_1_header"></div>
+            <div id="pie_type_1" class="pie"></div>
+            <div id="pie_type_1_legend"></div>
+          </div>
+        </div>
+
+        <!-- PIE TYPE II -->
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 pie_type_2">
+          <div class="canvas">
+            <div id="pie_type_2_header"></div>
+            <div id="pie_type_2" class="pie2"></div>
+            <div id="pie_type_2_legend"></div>
+          </div>
+        </div>
+        <!-- PIE TYPE III -->
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 pie_type_3">
+          <div class="canvas">
+            <div id="pie_type_3_header"></div>
+            <div id="pie_type_3" class="pie3"></div>
+            <div id="pie_type_3_legend"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row no-gutters py-0">
+        <!-- CHART HOURS OF DAY -->
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+          <div class="canvas">
+            <div id="chart_hours_of_day_header"></div>
+            <div id="chart_hours_of_day" class="graph1"></div>
+            <div id="chart_hours_of_day_legend"></div>
+          </div>
+        </div>
+
+        <!-- CHART DAYS OF WEEKS -->
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 pie_type_2">
+          <div class="canvas">
+            <div id="chart_hours_of_header"></div>
+            <div id="pie_type_2" class="pie2"></div>
+            <div id="pie_type_2_legend"></div>
+          </div>
+        </div>
+
+        <!-- CHART MONTH OF YEAR -->
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 pie_type_3">
+          <div class="canvas">
+            <div id="pie_type_3_header"></div>
+            <div id="pie_type_3" class="pie3"></div>
+            <div id="pie_type_3_legend"></div>
+          </div>
+        </div>
+      
+    </main>
+    <!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- D3 SCRIPTS -->
+    <script src="/scripts/canvasSizes.js"></script>
+    <script src="/scripts/urls.js"></script>
+    <script src="/scripts/pieTypeI.js"></script>
+    <script src="/scripts/pieTypeII.js"></script>
+    <script src="/scripts/pieTypeIII.js"></script>
+    <script src="/scripts/chartHoursOfDay.js"></script>
+
+    <!-- D3 FUNCTIONS -->
+
+    <script>
+      const urls = getUrls();
+      console.log("urls", urls);
+      const canvasSizes1 = getCanvasSizes({ elementId: "pie_type_1" });
+      console.log("canvasSizes 1", canvasSizes1);
+      const canvasSizes2 = getCanvasSizes({ elementId: "pie_type_2" });
+      console.log("canvasSizes 2", canvasSizes2);
+
+      const canvasSizes3 = getCanvasSizes({ elementId: "pie_type_3" });
+      console.log("canvasSizes 3", canvasSizes3);
+      const canvasSizes4 = getCanvasSizes({ elementId: "chart_hours_of_day" });
+      console.log("canvasSizes 4", canvasSizes3);
+
+      getPieTypeI(urls, canvasSizes1);
+      getPieTypeII(urls, canvasSizes2);
+      getPieTypeIII(urls, canvasSizes3);
+      getHoursOfDayChart(urls, canvasSizes4)
+    </script>
+  </body>
+</html>
