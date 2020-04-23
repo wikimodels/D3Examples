@@ -51,7 +51,7 @@ async function getPieTypeII(urls, canvasSizes) {
       })
       .attr("dy", ".35em")
       .attr("dx", "-.5em")
-      .style("font-size", "20px")
+      .style("font-size", canvasSizes.label.labelText)
       .text(function (d) {
         return `${d.data.clicks}`;
       })
@@ -73,7 +73,9 @@ async function getPieTypeII(urls, canvasSizes) {
       .attr("transform", function (d, i) {
         {
           return `translate(${
-            canvasSizes.label.marginLeft
+            (canvasSizes.svgWidth -
+              getTextWidth("Смартфоны (19.32%)", canvasSizes.label.fontSize)) /
+            2
           }, ${canvasSizes.label.marginTop + i * 24})`;
         }
       });

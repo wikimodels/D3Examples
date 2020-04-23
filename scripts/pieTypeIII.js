@@ -52,7 +52,7 @@ async function getPieTypeIII(urls, canvasSizes) {
       })
       .attr("dy", ".35em")
       .attr("dx", "-.95em")
-      .style("font-size", "17px")
+      .style("font-size", canvasSizes.label.pieFontSize)
       .text(function (d) {
         return `${d.data.percent}`;
       })
@@ -77,7 +77,7 @@ async function getPieTypeIII(urls, canvasSizes) {
       .data(data.data)
       .enter()
       .append("g")
-      .attr("class", "legends3")
+      .attr("class", "legend3")
       .attr("transform", position);
 
     legend
@@ -105,14 +105,27 @@ async function getPieTypeIII(urls, canvasSizes) {
 
     // ARRANGEMENT LEGEND iN TWO COLUNMS
     function position(d, i) {
-      var c = 3; // number of columns
-      var h = 20; // height of each entry
-      var w = 120; // width of each entry (so you can position the next column)
-      var tx = 0.09 * canvasSizes.svgWidth; // tx/ty are essentially margin values
-      var ty = 0;
-      var x = (i % c) * w + tx;
-      var y = Math.floor(i / c) * h + ty;
-      return `translate(${x}, ${y})`;
+      if (window.innerWidth < 500) {
+        //MOBiLE
+        var c = 2; // number of columns
+        var h = 24; // height of each entry
+        var w = 0.38 * canvasSizes.svgWidth; // width of each entry (so you can position the next column)
+        var tx = canvasSizes.svgWidth - 2 * w; // tx/ty are essentially margin values
+        var ty = 20;
+        var x = (i % c) * w + tx;
+        var y = Math.floor(i / c) * h + ty;
+        return `translate(${x}, ${y})`;
+      } else {
+        //DESKTOP
+        var c = 4; // number of columns
+        var h = 27; // height of each entry
+        var w = 120; // width of each entry (so you can position the next column)
+        var tx = 0.14 * canvasSizes.svgWidth; // tx/ty are essentially margin values
+        var ty = 0;
+        var x = (i % c) * w + tx;
+        var y = Math.floor(i / c) * h + ty;
+        return `translate(${x}, ${y})`;
+      }
     }
   } catch (e) {
     console.error(e);

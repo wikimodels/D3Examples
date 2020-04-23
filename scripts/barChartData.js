@@ -102,6 +102,3 @@ function getBarChartSetting() {
 
   return barChartSettings;
 }
-
-// legendSvgRect.mobile = `translate(${0.3*width},${0})`
-// legendSvgLine.mobile = `translate(${0.3*width},${90})`

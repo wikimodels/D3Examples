@@ -16,6 +16,7 @@
       rel="canonical"
       href="https://getbootstrap.com/docs/4.0/examples/starter-template/"
     />
+    <link rel="stylesheet" href="assets/barChart.css" />
 
     <!-- Get D3 setup -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -116,10 +117,11 @@
 
       <div class="row no-gutters py-0">
         <!-- CHART HOURS OF DAY -->
-        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-          <div class="canvas">
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+          <div class="bigCanvas">
             <div id="chart_hours_of_day_header"></div>
-            <div id="chart_hours_of_day" class="graph1"></div>
+
+            <div id="chart_hours_of_day" class="barChartType1"></div>
             <div id="chart_hours_of_day_legend"></div>
           </div>
         </div>
@@ -132,16 +134,27 @@
             <div id="pie_type_2_legend"></div>
           </div>
         </div>
+      </div>
 
-        <!-- CHART MONTH OF YEAR -->
-        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 pie_type_3">
+      <div class="row no-gutters py-0">
+        <!-- CHART DAYS OF WEEKS -->
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 pie_type_2">
           <div class="canvas">
-            <div id="pie_type_3_header"></div>
-            <div id="pie_type_3" class="pie3"></div>
-            <div id="pie_type_3_legend"></div>
+            <div id="chart_hours_of_header"></div>
+            <div id="pie_type_2" class="pie2"></div>
+            <div id="pie_type_2_legend"></div>
           </div>
         </div>
-      
+
+        <!-- CHART DAYS OF WEEK -->
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+          <div class="bigCanvas">
+            <div id="chart_days_of_week_header"></div>
+            <div id="chart_days_of_week" class="barChartType2"></div>
+            <div id="chart_days_of_week_legend"></div>
+          </div>
+        </div>
+      </div>
     </main>
     <!-- /.container -->
 
@@ -171,6 +184,10 @@
     <script src="/scripts/pieTypeII.js"></script>
     <script src="/scripts/pieTypeIII.js"></script>
     <script src="/scripts/chartHoursOfDay.js"></script>
+    <script src="/scripts/barChartData.js"></script>
+    <script src="/scripts/barChart&Line.js"></script>
+    <script src="/scripts/groupedChart.js"></script>
+    <script src="/scripts/utils.js"></script>
 
     <!-- D3 FUNCTIONS -->
 
@@ -184,13 +201,18 @@
 
       const canvasSizes3 = getCanvasSizes({ elementId: "pie_type_3" });
       console.log("canvasSizes 3", canvasSizes3);
+
       const canvasSizes4 = getCanvasSizes({ elementId: "chart_hours_of_day" });
-      console.log("canvasSizes 4", canvasSizes3);
+      console.log("canvasSizes 4", canvasSizes4);
+
+      const canvasSizes5 = getCanvasSizes({ elementId: "chart_days_of_week" });
+      console.log("canvasSizes 5", canvasSizes4);
 
       getPieTypeI(urls, canvasSizes1);
       getPieTypeII(urls, canvasSizes2);
       getPieTypeIII(urls, canvasSizes3);
-      getHoursOfDayChart(urls, canvasSizes4)
+      getHoursOfDayChart(urls, canvasSizes4);
+      getDaysOfWeekChart(urls, canvasSizes5);
     </script>
   </body>
 </html>

@@ -7,6 +7,7 @@ async function getPieTypeI(urls, canvasSizes) {
     const radius = canvasSizes.r;
 
     const labelHeight = calcuateHeight(canvasSizes, data.data.length);
+    console.log("labelHeight", labelHeight);
 
     var svg = d3
       .selectAll(".pie")
@@ -50,7 +51,7 @@ async function getPieTypeI(urls, canvasSizes) {
       })
       .attr("dy", ".35em")
       .attr("dx", "-.5em")
-      .style("font-size", "20px")
+      .style("font-size", canvasSizes.label.labelText)
       .text(function (d) {
         return `${d.data.clicks}`;
       })
@@ -72,7 +73,9 @@ async function getPieTypeI(urls, canvasSizes) {
       .attr("transform", function (d, i) {
         {
           return `translate(${
-            canvasSizes.label.marginLeft
+            (canvasSizes.svgWidth -
+              getTextWidth("Уникальные (5.67%)", canvasSizes.label.fontSize)) /
+            2
           }, ${canvasSizes.label.marginTop + i * 24})`;
         }
       });
@@ -110,3 +113,16 @@ async function getPieTypeI(urls, canvasSizes) {
     console.error(e);
   }
 }
+
+// function getTextWidth(text, font) {
+//   // re-use canvas object for better performance
+//   var canvas =
+//     getTextWidth.canvas ||
+//     (getTextWidth.canvas = document.createElement("canvas"));
+//   var context = canvas.getContext("2d");
+//   context.font = "19px sans-serif";
+//   console.log("Context", context);
+
+//   var metrics = context.measureText(text);
+//   return metrics.width;
+// }

@@ -15,24 +15,59 @@ body {
 }
 
 @media (max-width: 500px) {
-  h6 {
-    font-size: 1.4rem;
+  .header {
+    color: whitesmoke;
+    text-align: center;
+    padding-top: 1.1rem;
+    font-size: 1.2rem;
+  }
+
+  /* ! Regulates Height of Pie Chart */
+  .canvas {
+    width: 97%;
+    height: 75vh;
+    background-color: rgb(2, 2, 51);
+    margin: auto;
+    margin-top: 0.5rem;
+  }
+
+  /* Regulate Height of Bar Chart */
+  .bigCanvas {
+    width: 98%;
+    height: 75vh;
+    background-color: rgb(2, 2, 51);
+    margin: auto;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (min-width: 500px) {
+  .header {
+    color: whitesmoke;
+    text-align: center;
+    padding-top: 1.4rem;
+    font-size: 1.7rem;
+  }
+
+  /* ! Regulates Height of Pie Chart */
+  .canvas {
+    width: 97%;
+    height: 88vh;
+    background-color: rgb(2, 2, 51);
+    margin: auto;
+    margin-top: 0.5rem;
+  }
+
+  /* Regulate Height of Bar Chart */
+  .bigCanvas {
+    width: 98%;
+    height: 88vh;
+    background-color: rgb(2, 2, 51);
+    margin: auto;
+    margin-top: 0.5rem;
   }
 }
 
 .labelText {
   fill: whitesmoke;
-}
-.header {
-  color: whitesmoke;
-  text-align: center;
-  padding-top: 1rem;
-}
-
-.canvas {
-  width: 90%;
-  height: 80vh;
-  background-color: rgb(2, 2, 51);
-  margin: auto;
-  margin-top: 0.5rem;
 }
