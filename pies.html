@@ -155,6 +155,17 @@
           </div>
         </div>
       </div>
+
+      <div class="row no-gutters py-0">
+        <!-- CHART DAILY CLICKS -->
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="superBigCanvas">
+            <div id="chart_daily_clicks_header"></div>
+            <div id="chart_daily_clicks" class="areaChartType1"></div>
+            <div id="chart_daily_clicks_legend"></div>
+          </div>
+        </div>
+      </div>
     </main>
     <!-- /.container -->
 
@@ -187,6 +198,8 @@
     <script src="/scripts/barChartData.js"></script>
     <script src="/scripts/barChart&Line.js"></script>
     <script src="/scripts/groupedChart.js"></script>
+    <script src="/scripts/areaChart&Line.js"></script>
+    <script src="/scripts/locale.js"></script>
     <script src="/scripts/utils.js"></script>
 
     <!-- D3 FUNCTIONS -->
@@ -208,11 +221,15 @@
       const canvasSizes5 = getCanvasSizes({ elementId: "chart_days_of_week" });
       console.log("canvasSizes 5", canvasSizes4);
 
+      const canvasSizes6 = getCanvasSizes({ elementId: "chart_daily_clicks" });
+      console.log("canvasSizes 6", canvasSizes6);
+
       getPieTypeI(urls, canvasSizes1);
       getPieTypeII(urls, canvasSizes2);
       getPieTypeIII(urls, canvasSizes3);
       getHoursOfDayChart(urls, canvasSizes4);
       getDaysOfWeekChart(urls, canvasSizes5);
+      getDailyClicksForTimePeriod(urls, canvasSizes6);
     </script>
   </body>
 </html>

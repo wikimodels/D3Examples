@@ -15,5 +15,8 @@ function getUrls() {
   urls.clicksByDaysOfWeek =
     "https://webhooks.mongodb-stitch.com/api/client/v2.0/app/wikistorestitchapp-vgkfz/service/wikiStoreStats/incoming_webhook/s_ch_3_clicks_by_days_of_week?startDate=2019-05-05&endDate=2020-05-05&secret=wikistore";
 
+  urls.dailyClicksForTimePeriod =
+    "https://webhooks.mongodb-stitch.com/api/client/v2.0/app/wikistorestitchapp-vgkfz/service/wikiStoreStats/incoming_webhook/s_ch_7_daily_clicks_for_time_period?startDate=2020-01-03&endDate=2020-04-30&secret=wikistore";
+
   return urls;
 }

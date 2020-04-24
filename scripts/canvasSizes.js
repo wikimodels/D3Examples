@@ -21,6 +21,9 @@ getCanvasSizes = ({ elementId = "pie_type_1" } = {}) => {
   if (elementId === "chart_days_of_week") {
     canvasSizes.title = "Посещения по Дням Недели";
   }
+  if (elementId === "chart_daily_clicks") {
+    canvasSizes.title = "Посещения с... по...";
+  }
   // ----------------------------------------
   if (window.innerWidth <= breakPoint) {
     //MOBILE
@@ -28,6 +31,9 @@ getCanvasSizes = ({ elementId = "pie_type_1" } = {}) => {
     canvasSizes.svgHeight = width;
     if (elementId === "chart_hours_of_day") {
       canvasSizes.svgHeight = 400;
+    }
+    if (elementId === "chart_daily_clicks") {
+      canvasSizes.svgHeight = 460;
     }
     canvasSizes.cx = Math.floor(width / 2);
     canvasSizes.cy = Math.floor(width / 2);
@@ -80,6 +86,27 @@ getCanvasSizes = ({ elementId = "pie_type_1" } = {}) => {
     canvasSizes.groupedChartLegendGroupX2 =
       (width - (getTextWidth("уникальные пользователи", 17) + 51 + 5)) / 5;
     canvasSizes.groupedChartLineLabeTextX = 80;
+
+    // AREA CHART TYPE
+
+    canvasSizes.areaChartType1 = {};
+    canvasSizes.areaChartType1.lineX1 = 87;
+    canvasSizes.areaChartType1.lineY1 = 10;
+    canvasSizes.areaChartType1.lineX2 = 157;
+    canvasSizes.areaChartType1.lineY2 = 10;
+    canvasSizes.areaChartType1.circleCX = 87 + 35;
+    canvasSizes.areaChartType1.circleCY = 10;
+    canvasSizes.areaChartType1.circleR = 4;
+    canvasSizes.areaChartType1.strokeWidth = 2;
+    canvasSizes.areaChartType1.text1x = 170;
+    canvasSizes.areaChartType1.marginBottom = 50;
+    canvasSizes.areaChartType1.tickN = 4;
+    canvasSizes.areaChartType1.rotateLabelText = -90;
+    canvasSizes.areaChartType1.AxisXLabel = 0.9 * canvasSizes.svgWidth;
+    canvasSizes.areaChartLegendX =
+      (width - (getTextWidth("уникальные", 17) + 70 + 13 + 35)) / 5;
+    canvasSizes.areaChartLegendX2 =
+      (width - (getTextWidth("уникальные", 17) + 70 + 13 + 35)) / 5;
   } else {
     // DESKTOP
     canvasSizes.svgWidth = width;
@@ -89,6 +116,10 @@ getCanvasSizes = ({ elementId = "pie_type_1" } = {}) => {
       elementId === "chart_days_of_week"
     ) {
       canvasSizes.svgHeight = 600;
+    }
+
+    if (elementId === "chart_daily_clicks") {
+      canvasSizes.svgHeight = 680;
     }
 
     canvasSizes.barChartPadding = 0.2;
@@ -133,11 +164,29 @@ getCanvasSizes = ({ elementId = "pie_type_1" } = {}) => {
     canvasSizes.lineLabeTextX = 114;
 
     //GroupedChart Legend
-    canvasSizes.groupedChartLegendGroupX = 0.12 * width;
-    canvasSizes.groupedChartLegendGroupX2 = 0.5 * width;
+    canvasSizes.groupedChartLegendGroupX = 0.2 * width;
+    canvasSizes.groupedChartLegendGroupX2 = 0.54 * width;
     canvasSizes.groupedChartLegendGroupY2 = 500;
     canvasSizes.groupedChartLegendGroupY = 500;
     canvasSizes.groupedChartLineLabeTextX = 97;
+
+    // AREA CHART TYPE
+    canvasSizes.areaChartLegendX = 0.2 * width;
+    canvasSizes.areaChartLegendX2 = 0.54 * width;
+    canvasSizes.areaChartType1 = {};
+    canvasSizes.areaChartType1.lineX1 = 97;
+    canvasSizes.areaChartType1.lineY1 = 13;
+    canvasSizes.areaChartType1.lineX2 = 167;
+    canvasSizes.areaChartType1.lineY2 = 13;
+    canvasSizes.areaChartType1.circleCX = 97 + 35;
+    canvasSizes.areaChartType1.circleCY = 13;
+    canvasSizes.areaChartType1.circleR = 6;
+    canvasSizes.areaChartType1.strokeWidth = 3;
+    canvasSizes.areaChartType1.text1x = 187;
+    canvasSizes.areaChartType1.marginBottom = 150;
+    canvasSizes.areaChartType1.AxisXLabel = 0.96 * canvasSizes.svgWidth;
+    canvasSizes.areaChartType1.tickN = 15;
+    canvasSizes.areaChartType1.rotateLabelText = 0;
   }
   return canvasSizes;
 };

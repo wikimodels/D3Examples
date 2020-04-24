@@ -39,6 +39,14 @@ body {
     margin: auto;
     margin-top: 0.5rem;
   }
+
+  .superBigCanvas {
+    width: 98%;
+    height: 94vh;
+    background-color: rgb(2, 2, 51);
+    margin: auto;
+    margin-top: 0.5rem;
+  }
 }
 
 @media (min-width: 500px) {
@@ -66,8 +74,15 @@ body {
     margin: auto;
     margin-top: 0.5rem;
   }
-}
+  .superBigCanvas {
+    width: 98%;
+    height: 96vh;
+    background-color: rgb(2, 2, 51);
+    margin: auto;
+    margin-top: 0.5rem;
+  }
 
-.labelText {
-  fill: whitesmoke;
+  .labelText {
+    fill: whitesmoke;
+  }
 }
